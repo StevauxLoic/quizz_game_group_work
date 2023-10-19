@@ -1,8 +1,18 @@
+from random import shuffle
+
 def doing_level(level, wrong_answer_max_per_question) :
-    for question in level :         # cahnged
+    shuffle(level)                              # cahnged
+    for question in level :                     # cahnged
         number_of_fail = 0
+        question_text = question["question"]    # cahnged
+        answers = question["answers"]           # cahnged
         while(number_of_fail < wrong_answer_max_per_question) :
-            answer = input(question["question"])
+            print(f"Question : {question_text}\n"                     # cahnged
+                  f"A. {answers['A']}\n"
+                  f"B. {answers['B']}\n"
+                  f"C. {answers['C']}\n")
+            
+            answer = input("Your choice (letter) : ")                 # changed
 
             if(answer.upper() == question["correct_answer"]) :        # changed
                 break
@@ -40,10 +50,10 @@ def quizz_game() :
     number_of_good_answers = 0
     number_of_bad_answers = 0
     level_1 = [
-        {"question": "1+1 = ?", "answers": {"A":"4", "B":"-1", "C":"2", "D":"3"}, "correct_answer": "C"},
-        {"question": "2+3 = ?", "answers": {"A":"5", "B":"10", "C":"8", "D":"4"}, "correct_answer": "A"},
-        {"question": "5+5 = ?", "answers": {"A":"12", "B":"9", "C":"5", "D":"10"}, "correct_answer": "D"},
-        {"question": "10+7 = ?", "answers": {"A":"17", "B":"15", "C":"7", "D":"14"}, "correct_answer": "A"},
+        {"question": "1+1 = ?", "answers": {"A":"4", "B":"-1", "C":"2"}, "correct_answer": "C"},
+        {"question": "2+3 = ?", "answers": {"A":"5", "B":"10", "C":"8"}, "correct_answer": "A"},
+        {"question": "5+5 = ?", "answers": {"A":"12", "B":"10", "C":"5"}, "correct_answer": "B"},
+        {"question": "10+7 = ?", "answers": {"A":"17", "B":"15", "C":"7"}, "correct_answer": "A"},
         {"question": "The name of the planet you live on is?", "answers": {"A": "Mars", "B": "Earth", "C": "TRAPPIST-1e"},
          "correct_answer": "B"},
         {"question": "In which city can you find the Eiffel Tower?", "answers": {"A": "Pori", "B": "Boston", "C": "Paris"},
@@ -53,10 +63,10 @@ def quizz_game() :
     ]
 
     level_2 = [
-        {"question": "1*1 = ?", "answers": {"A":"0", "B":"11", "C":"1", "D":"-1"}, "correct_answer": "C"},
-        {"question": "2*3 = ?", "answers": {"A":"9", "B":"6", "C":"5", "D":"7"}, "correct_answer": "B"},
-        {"question": "5*5 = ?", "answers": {"A":"30", "B":"20", "C":"55", "D":"25"}, "correct_answer": "D"},
-        {"question": "10*7 = ?", "answers": {"A":"70", "B":"75", "C":"69", "D":"17"}, "correct_answer": "A"},
+        {"question": "1*1 = ?", "answers": {"A":"0", "B":"11", "C":"1"}, "correct_answer": "C"},
+        {"question": "2*3 = ?", "answers": {"A":"9", "B":"6", "C":"5"}, "correct_answer": "B"},
+        {"question": "5*5 = ?", "answers": {"A":"25", "B":"20", "C":"55"}, "correct_answer": "A"},
+        {"question": "10*7 = ?", "answers": {"A":"70", "B":"75", "C":"69"}, "correct_answer": "A"},
         {"question": "Which school did Harry Potter attend?", "answers": {"A": "Hogwarts", "B": "MIT", "C": "SAMK"},
          "correct_answer": "A"},
         {"question": "Which is faster, light or sound?", "answers": {"A": "Sound", "B": "Light", "C": "Equally fast"},
@@ -66,10 +76,10 @@ def quizz_game() :
     ]
 
     level_3 = [
-        {"question": "(1+1) * 4 = ?", "answers": {"A":"10", "B":"8", "C":"16", "D":"4"}, "correct_answer": "B"},
-        {"question": "(2+3) * 6 = ?", "answers": {"A":"30", "B":"36", "C":"12", "D":"40"}, "correct_answer": "A"},
-        {"question": "(5+5) * 10 = ?", "answers": {"A":"100", "B":"250", "C":"25", "D":"500"}, "correct_answer": "A"},
-        {"question": "(10+7) * 2 = ?", "answers": {"A":"44", "B":"24", "C":"34", "D":"21"}, "correct_answer": "C"},
+        {"question": "(1+1) * 4 = ?", "answers": {"A":"10", "B":"8", "C":"16"}, "correct_answer": "B"},
+        {"question": "(2+3) * 6 = ?", "answers": {"A":"30", "B":"36", "C":"12"}, "correct_answer": "A"},
+        {"question": "(5+5) * 10 = ?", "answers": {"A":"100", "B":"250", "C":"25"}, "correct_answer": "A"},
+        {"question": "(10+7) * 2 = ?", "answers": {"A":"44", "B":"24", "C":"34"}, "correct_answer": "C"},
         {"question": "What is the capital of Afghanistan?", "answers": {"A": "Miami", "B": "Istanbul", "C": "Kabul"},
          "correct_answer": "C"},
         {"question": "Name the high IQ society founded in Oxford in 1946?",
