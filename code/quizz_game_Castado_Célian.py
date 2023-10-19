@@ -7,7 +7,7 @@ def doing_level(level, wrong_answer_max_per_question) :
         question_text = question["question"]    # cahnged
         answers = question["answers"]           # cahnged
         while(number_of_fail < wrong_answer_max_per_question) :
-            print(f"Question : {question_text}\n"                     # cahnged
+            print(f"\nQuestion : {question_text}\n"                     # cahnged
                   f"A. {answers['A']}\n"
                   f"B. {answers['B']}\n"
                   f"C. {answers['C']}\n")
