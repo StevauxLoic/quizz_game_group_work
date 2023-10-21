@@ -1,4 +1,5 @@
 # quizz_game_group_work
+
 A group work for the course "fluent with python" (School : SAMK, Finland)
 
 This python code is a quizz game in the terminal

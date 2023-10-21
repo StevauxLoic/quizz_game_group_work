@@ -1,8 +1,9 @@
 categories = {
-    "math" : {'bad_answers':11, 'good_answers':11, "question_encountered": 2}, 
-    "geography": {'bad_answers':11, 'good_answers':11, "question_encountered": 2},  
-    "books": {'bad_answers':11, 'good_answers':11, "question_encountered": 2},
-    "other": {'bad_answers':11, 'good_answers':11, "question_encountered": 2}
+        "math" : {'bad_answers':11, 'good_answers':11, "question_encountered": 2}, 
+        "geography": {'bad_answers':11, 'good_answers':11, "question_encountered": 2},  
+        "books": {'bad_answers':11, 'good_answers':11, "question_encountered": 2},
+        "other": {'bad_answers':11, 'good_answers':11, "question_encountered": 2},
+        "science": {'bad_answers':11, 'good_answers':11, "question_encountered": 2}
     }
 
 level_1 = [
