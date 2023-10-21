@@ -14,7 +14,8 @@ def doing_level(level, wrong_answer_max_per_question) :
             
             answer = input("Your choice (letter) : ")                 # changed
 
-            if(answer.upper() == question["correct_answer"]) :        # changed
+            if(answer.upper() == question["correct_answer"]) : 
+                print("Correct answer !")       # changed
                 break
             else :
                 number_of_fail += 1

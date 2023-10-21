@@ -3,3 +3,4 @@
 - use a function 'get_questions_lists()' like in [quizz_game_idea.py](quizz_game_idea.py)
 - use a max questions per level like in [question_amount.py](question_amount.py)
 - add an ending information/congratulations panel like in [ending_panel.py](ending_panel.py)
+- add the clear terminal after a level is completed or lost
