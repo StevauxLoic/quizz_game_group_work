@@ -1,56 +1,17 @@
 from random import shuffle
-
-def doing_level(level, wrong_answer_max_per_question) :
-    shuffle(level)                              # cahnged
-    for question in level :                     # cahnged
-        number_of_fail = 0
-        question_text = question["question"]    # cahnged
-        answers = question["answers"]           # cahnged
-        while(number_of_fail < wrong_answer_max_per_question) :
-            print(f"\nQuestion : {question_text}\n"                     # cahnged
-                  f"A. {answers['A']}\n"
-                  f"B. {answers['B']}\n"
-                  f"C. {answers['C']}\n")
-            
-            answer = input("Your choice (letter) : ")                 # changed
-
-            if(answer.upper() == question["correct_answer"]) : 
-                print("Correct answer !")       # changed
-                break
-            else :
-                number_of_fail += 1
-                if(number_of_fail < wrong_answer_max_per_question) :
-                    print(f"you failed, you have {wrong_answer_max_per_question - number_of_fail} attempt left")
-
-        if(number_of_fail == wrong_answer_max_per_question) :
-            good_answer = question["answers"][question["correct_answer"]]       # cahnged
-            print(f"you lost. The correct answer was {good_answer}")            # changed
-            return False
-
-    return True
+import os
+ 
+def terminal_clear():
+    if os.name == 'posix':
+        return os.system('clear')
+    else:
+        return os.system('cls')
 
 
-def game_settings():
-    while True:
-        user_input = input("Enter the number of max try answers per question ( Please select a number greater than 0): ")
-        if(user_input.isdigit()) :
-            if(int(user_input) > 0):
-                max_wrong_answers_per_question = int(user_input)
-                break
-        print("wrong input ! Please select a number greater or equal than 0")
 
-    while True:
-        user_input = input("Enter the number of the starting quizz ( Please select a number between 1 - 3): ")
-        if(user_input.isdigit()) :
-            if(int(user_input) > 0 and int(user_input) <=3 ):
-                level_number = int(user_input)
-                break
-    return max_wrong_answers_per_question, level_number
+def get_questions_lists()->list:
+    quizz = []
 
-def quizz_game() :
-    number_of_good_answers = 0
-    number_of_bad_answers = 0
-    
     level_1 = [
         {"question": "1+1 = ?",
          "answers": {"A":"4", "B":"-1", "C":"2"}, "correct_answer": "C"},
@@ -67,7 +28,7 @@ def quizz_game() :
         {"question": "What do you get if you mix red and yellow?",
          "answers": {"A": "Lila", "B": "Orange", "C": "Green"}, "correct_answer": "B"},
         {"question": "what's the first letter of the alphabet ?",
-         "answers": {"A": "A", "B": " B", "C": "C"}, "correct_answer": "A"},
+         "answers": {"A": "A", "B": "B", "C": "C"}, "correct_answer": "A"},
         {"question": "what's the result of 2 + 5 ?",
          "answers": {"A": "6", "B": "7", "C": "9"}, "correct_answer": "B"},
         {"question": "what's the longest word between those words ?",
@@ -77,6 +38,7 @@ def quizz_game() :
         {"question": "what's the result of 9-2 ?",
          "answers": {"A": "5", "B": "7", "C": "8"}, "correct_answer": "B"}
     ]
+    quizz.append(level_1)
 
     level_2 = [
         {"question": "1*1 = ?",
@@ -104,6 +66,7 @@ def quizz_game() :
         {"question": "Is Hades one of Zeus's brothers in the greek mythology ?",
          "answers": {"A": "yes", "B": "no", "C": "Zeus does not have any brothers"}, "correct_answer": "A"}
     ]
+    quizz.append(level_2)
 
     level_3 = [
         {"question": "(1+1) * 4 = ?",
@@ -131,36 +94,139 @@ def quizz_game() :
         {"question": "How many countries is there on earth (in september 2023) ?",
          "answers": {"A": "206", "B": "188", "C": "195"}, "correct_answer": "C"}
     ]
-            # levels changed
+    quizz.append(level_3)
 
-    quizz = [level_1, level_2, level_3]
+    return quizz
 
-    max_wrong_answers_per_question, starting_level = game_settings()
+
+def doing_level(level, wrong_answer_max_per_question, number_of_bad_answers_in_total, number_of_good_answers_in_total, questions_amount) :
+    shuffle(level)
+    number_of_bad_answers_in_level = 0
+    number_of_good_answers_in_level = 0                              # cahnged
+    if questions_amount >= len(level):
+        # the amount is greater or equal to the lenght so we keep it like it was
+        adjustedLevel = level
+    else:
+        # we take only the needed questions
+        adjustedLevel = level[:(questions_amount)]
+
+    for question in adjustedLevel :     # we use the adjusted level                     # cahnged
+        number_of_fail = 0
+        question_text = question["question"]    # cahnged
+        answers = question["answers"]           # cahnged
+        while(number_of_fail < wrong_answer_max_per_question) :
+            print(f"\nQuestion : {question_text}\n"                     # cahnged
+                  f"A. {answers['A']}\n"
+                  f"B. {answers['B']}\n"
+                  f"C. {answers['C']}\n")
+            
+            answer = input("Your choice (letter) : ")                 # changed
+
+            if(answer.upper() == question["correct_answer"]) : 
+                print("Correct answer !")       # changed
+                number_of_good_answers_in_level +=1
+                number_of_good_answers_in_total += 1
+                break
+            else :
+                number_of_fail += 1
+                if(number_of_fail < wrong_answer_max_per_question) :
+                    print(f"you failed, you have {wrong_answer_max_per_question - number_of_fail} attempt left")
+                    number_of_bad_answers_in_level += 1
+                    number_of_bad_answers_in_total += 1
+
+        if(number_of_fail == wrong_answer_max_per_question) :
+            number_of_bad_answers_in_level += 1
+            number_of_bad_answers_in_total += 1
+            good_answer = question["answers"][question["correct_answer"]]       # cahnged
+            print(f"you lost. The correct answer was {good_answer}")            # changed
+            return False, number_of_bad_answers_in_total, number_of_good_answers_in_total, number_of_bad_answers_in_level, number_of_good_answers_in_level
+
+    return True, number_of_bad_answers_in_total, number_of_good_answers_in_total, number_of_bad_answers_in_level, number_of_good_answers_in_level
+
+def ask_number(min, max)->int:
+    while True:
+        user_input = input(f"Enter a number greater or equal to {min} and smaller or equal to {max} : ")
+        if(user_input.isdigit()) :
+            number_entered = int(user_input)
+            if(number_entered >= min and number_entered <= max):
+                return number_entered
+
+        print("wrong input !")
+
+def game_settings(quizz):
+    print("Enter the number of max try answers per question")
+    max_wrong_answers_per_question = ask_number(1, 2)
+
+    print("Enter the number of the starting level")
+    level_number = ask_number(1, len(quizz))
+
+    print("Enter the max amount of questions for each levels")
+    max_question = 0
+    for level in quizz[level_number:] :
+        if(len(level) > max_question) :
+            max_question = len(level)
+
+    questions_amount = ask_number(1, max_question)
+
+    return max_wrong_answers_per_question, level_number, questions_amount
+
+def get_answers_stat(good_answers_amount, bad_answers_amount):
+    answers_accuracy = good_answers_amount/(good_answers_amount + bad_answers_amount)
+    output_message = f"Good answers given : {good_answers_amount}\n"
+    output_message += f"Bad answers given : {bad_answers_amount}\n"
+    output_message += f"Answers accuracy : {answers_accuracy*100:.2f}%\n"
+    return output_message
+def show_game_ending(is_success, max_wrong_answers_per_question, good_answers_amount, bad_answers_amount, ending_level, starting_level=1):
+    output_message = f"########### STATS FROM THE WHOLE QUIZZES ###############\n"
+    output_message += get_answers_stat(good_answers_amount, bad_answers_amount)
+    output_message += f"############# STATS OF THE LAST QUIZZ #################\n"
+    output_message += f"Starting level : {starting_level}\n"
+    output_message += f"Max wrong answers per question selected : {max_wrong_answers_per_question}\n"
+    output_message += f"Last level : {ending_level}\n"
+    output_message += f"You {'succeed' if is_success else 'failed'}\n"
+    # here we can add some message related to the accuracy and the success
+    # e.g. : success + 100% accuracy ==> 'Well done you're so precise, Amazing'
+    #        failed + 90% accuracy ==> 'How did you lose ?'
+    #        failed + 50% accuracy ==> 'Not so lucky'
+    #        success + 50% accuracy ==> 'How lucky you are'
+
+    # we can even add effect as colours, clear the terminal before showing anything
+    # and using the time wait
+
+    print(output_message)
+
+def quizz_game() :
+    total_number_bad_answers = 0
+    total_number_good_answers = 0
+
+    quizz = get_questions_lists()
+
+    max_wrong_answers_per_question, starting_level, max_questions_amount = game_settings(quizz)
     actual_level_index = starting_level - 1
 
     while True:
-        is_success = doing_level(quizz[actual_level_index],max_wrong_answers_per_question)
+        is_success, total_number_bad_answers, total_number_good_answers, number_of_bad_answers_in_level, number_of_good_answers_in_level = doing_level(quizz[actual_level_index],max_wrong_answers_per_question, total_number_bad_answers, total_number_good_answers, max_questions_amount)
+        terminal_clear()
+        print(f"########### STATS FROM THE LEVEL N°{actual_level_index + 1} ###############")
+        print(get_answers_stat(number_of_good_answers_in_level, number_of_bad_answers_in_level))
         if(is_success) :
-            print(f"you succeeded the level number {actual_level_index + 1}")
+            print(f"you succeeded the level")
 
             if(actual_level_index + 1 < len(quizz)) :
                 actual_level_index += 1
             else :
                 break
         else :
-            choice_to_restart = input("You lost ! Do you want to restart (y(yes) or anything else for no) : ")  # changes
+            choice_to_restart = input("You lost ! Do you want to restart ? \nType : y(yes) or anything else for no : ")  # changes
+            terminal_clear()
             if(choice_to_restart.lower() == 'y' or choice_to_restart.lower() == 'yes'):
-                max_wrong_answers_per_question, starting_level = game_settings()
+                max_wrong_answers_per_question, starting_level, max_questions_amount = game_settings(quizz)
                 actual_level_index = starting_level - 1
             else :
                 break
 
-
-    if(is_success == False) :
-        print(f"You lost at level {actual_level_index + 1}")
-    else :
-        print(f"well played you won all the {actual_level_index} levels")       # maybe change ==> if he start at level 2 and only fail the message will be : "well played you won all the 1 levels"
-
+    
+    show_game_ending(is_success, max_wrong_answers_per_question, total_number_good_answers, total_number_bad_answers, actual_level_index + 1, starting_level)
 
 
 if __name__ == "__main__" :
