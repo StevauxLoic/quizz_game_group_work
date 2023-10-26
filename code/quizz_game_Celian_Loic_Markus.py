@@ -1,7 +1,17 @@
+"""
+This is a quizz game made by :
+C. Célian
+L. Markus
+S. Loïc
+"""
+
 from random import shuffle
 import os
  
 class bcolors:
+    """
+    This class have value usable to change the colors or font's styles
+    """
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
@@ -13,13 +23,32 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 def terminal_clear():
+    """
+    Clears the terminal screen.
+
+    This function checks the operating system and clears the terminal screen accordingly.
+    On Unix-based systems, it uses the 'clear' command, while on Windows it uses the 'cls' command.
+
+    Returns:
+        int: 0 if the command was executed successfully, non-zero otherwise.
+    """
     if os.name == 'posix':
         return os.system('clear')
     else:
         return os.system('cls')
 
 
-def get_questions_lists()->list:
+def get_questions_lists() -> list:
+    """
+    Returns a list of dictionaries, where each dictionary represents a question and its possible answers.
+    Each dictionary has the following keys:
+    - question: a string representing the question
+    - answers: a list of strings representing the possible answers
+    - correct_answer: a string representing the correct answer
+
+    Returns:
+    A list of dictionaries, where each dictionary represents a question and its possible answers.
+    """
     quizz = []
 
     level_1 = [
@@ -112,7 +141,27 @@ def get_questions_lists()->list:
 def doing_level(level, wrong_answer_max_per_question, 
                 number_of_bad_answers_in_total, 
                 number_of_good_answers_in_total, 
-                questions_amount) :
+                questions_amount) -> tuple:
+    """
+    This function takes a level of questions, shuffles them, and presents them to the user. 
+    For each question, the user has a limited number of attempts to answer correctly. 
+    The function returns the number of bad and good answers in the level and in total.
+
+    Args:
+    - level (list): a list of dictionaries representing the questions and their answers.
+    - wrong_answer_max_per_question (int): the maximum number of wrong answers allowed per question.
+    - number_of_bad_answers_in_total (int): the number of bad answers in total.
+    - number_of_good_answers_in_total (int): the number of good answers in total.
+    - questions_amount (int): the number of questions to be presented to the user.
+
+    Returns:
+    - A tuple containing:
+        - a boolean indicating whether the user succeeded in answering all the questions in the level.
+        - the updated number of bad answers in total.
+        - the updated number of good answers in total.
+        - the number of bad answers in the current level.
+        - the number of good answers in the current level.
+    """
     shuffle(level)
     number_of_bad_answers_in_level = 0
     number_of_good_answers_in_level = 0
@@ -159,7 +208,19 @@ def doing_level(level, wrong_answer_max_per_question,
 
     return True, number_of_bad_answers_in_total, number_of_good_answers_in_total, number_of_bad_answers_in_level, number_of_good_answers_in_level
 
-def ask_number(min, max)->int:
+def ask_number(min, max) -> int:
+    """
+    Prompts the user to enter a number between the given minimum and maximum values (inclusive).
+    If the user enters an invalid input, the function will continue to prompt the user until a valid input is entered.
+
+    Args:
+        min (int): The minimum value that the user can enter.
+        max (int): The maximum value that the user can enter.
+
+    Returns:
+        int: The number entered by the user.
+    """
+def ask_number(min, max) -> int:
     while True:
         user_input = input(f"{bcolors.OKCYAN}Enter a number greater or equal to {min} and smaller or equal to {max} : {bcolors.ENDC}")
         if(user_input.isdigit()) :
@@ -169,7 +230,20 @@ def ask_number(min, max)->int:
 
         print(f"{bcolors.FAIL}wrong input !{bcolors.ENDC}")
 
-def game_settings(quizz):
+def game_settings(quizz) -> tuple:
+    """
+    This function prompts the user to enter the game settings, including the maximum number of wrong answers per question,
+    the starting level, and the maximum number of questions for each level.
+
+    Parameters:
+    quizz (list): A list of lists representing the quiz questions and answers for each level.
+
+    Returns:
+    - A tuple containing: 
+        - the maximum number of wrong answers per question
+        - the starting level number
+        - and the maximum number of questions for each level.
+    """
     print("Enter the number of max try answers per question")
     max_wrong_answers_per_question = ask_number(1, 3)
 
@@ -186,11 +260,34 @@ def game_settings(quizz):
 
     return max_wrong_answers_per_question, level_number, questions_amount
 
-def get_accuracy(good_answers_amount, bad_answers_amount):
+def get_accuracy(good_answers_amount, bad_answers_amount) -> float:
+    """
+    Calculates the accuracy of the quiz game based on the number of good and bad answers.
+
+    Args:
+        good_answers_amount (int): The number of good answers.
+        bad_answers_amount (int): The number of bad answers.
+
+    Returns:
+        float: The accuracy of the quiz game as a percentage.
+    """
     accuracy = good_answers_amount/(good_answers_amount + bad_answers_amount)
     return accuracy
 
-def get_answers_stat(good_answers_amount, bad_answers_amount):
+def get_answers_stat(good_answers_amount, bad_answers_amount) -> str:
+    """
+    Returns a string containing statistics about the number of good and bad answers given, as well as the accuracy of the answers.
+
+    Args:
+    - good_answers_amount (int): The number of good answers given.
+    - bad_answers_amount (int): The number of bad answers given.
+
+    Returns:
+    - output_message (str): A string containing the following information:
+        - The number of good answers given.
+        - The number of bad answers given.
+        - The accuracy of the answers, expressed as a percentage.
+    """
     answers_accuracy = get_accuracy(good_answers_amount, bad_answers_amount)
 
     output_message = f"Good answers given : {good_answers_amount}\n"
@@ -205,6 +302,19 @@ def show_game_ending(is_success,
                      bad_answers_amount, 
                      ending_level, 
                      starting_level=1):
+    """
+    Displays the statistics of the quiz game, including the number of correct and incorrect answers, 
+    the starting and ending level, and whether the player succeeded or failed. Also displays a message 
+    based on the player's accuracy and success status.
+
+    Args:
+    - is_success (bool): Whether the player succeeded or failed the quiz game.
+    - max_wrong_answers_per_question (int): The maximum number of wrong answers allowed per question (for the last quizz try).
+    - good_answers_amount (int): The number of correct answers.
+    - bad_answers_amount (int): The number of incorrect answers.
+    - ending_level (int): The level the player ended on (for the last quizz try).
+    - starting_level (int): The level the player started on. Default is 1 (for the last quizz try).
+    """
     output_message = f"{bcolors.OKBLUE}{bcolors.BOLD}########### STATS FROM THE WHOLE QUIZZES ###############{bcolors.ENDC}\n"
     output_message += get_answers_stat(good_answers_amount, bad_answers_amount)
     output_message += f"{bcolors.OKBLUE}{bcolors.BOLD}############## STATS OF THE LAST QUIZZ #################{bcolors.ENDC}\n"
@@ -238,6 +348,12 @@ def show_game_ending(is_success,
     print(output_message)
 
 def quizz_game() :
+    """
+    Runs the quiz game, which consists of several levels of questions with increasing difficulty.
+    At each level, the player must answer a certain number of questions correctly without exceeding a certain number of wrong answers.
+    The game ends when the player completes all levels or loses a level and chooses not to restart.
+    """
+
     total_number_bad_answers = 0
     total_number_good_answers = 0
 
