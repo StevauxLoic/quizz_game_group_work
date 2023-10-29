@@ -75,7 +75,9 @@ def get_questions_lists() -> list:
         {"question": "what's the color of the sky ?",
             "answers": [ "brown",  "green",  "blue"], "correct_answer": "blue"},
         {"question": "what's the result of 9-2 ?",
-            "answers": [ "5",  "7",  "8", "2"], "correct_answer": "7"}
+            "answers": [ "5",  "7",  "8", "2"], "correct_answer": "7"},
+        {"question": "What is a Golden retriever ?",
+            "answers": [ "dog",  "cat",  "parrot", "mouse"], "correct_answer": "dog"}
         ]
     quizz.append(level_1)
 
@@ -133,7 +135,13 @@ def get_questions_lists() -> list:
         {"question": "What is 15°C in Fahrenheit ?",
             "answers": [ "44°F",  "37°F",  "59°F", "12°F", "67°F", "15°F"], "correct_answer": "59°F"},
         {"question": "How many countries is there on earth (in september 2023) ?",
-            "answers": [ "206", "188",  "195", "177", "212", "200"], "correct_answer": "195"}
+            "answers": [ "206", "188",  "195", "177", "212", "200"], "correct_answer": "195"},
+        {"question": "Who won the Eurovision in 1999 ?",
+            "answers": [ "Sweden",  "Finland",  "Belgium", "Netherland"], "correct_answer": "Sweden"},
+        {"question": "How many Roman emperors have ever existed ?",
+            "answers": [ "12",  "87",  "58", "104"], "correct_answer": "87"},
+        {"question": "How many french kings have ever existed ?",
+            "answers": [ "64",  "85", "72",  "16", "42"], "correct_answer": "64"}
     ]
     quizz.append(level_3)
 
